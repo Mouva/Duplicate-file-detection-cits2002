@@ -1,7 +1,7 @@
 # A Makefile to build the duplicates project.
 PROJECT =  duplicates
 HEADERS =  $(PROJECT).h
-OBJ     =  duplicates.o strSHA2.o readDup.o
+OBJ     =  duplicates.o strSHA2.o readFiles.o globals.o htable.o list.o
 
 C11     =  cc -std=c11
 CFLAGS  =  -Wall -Werror

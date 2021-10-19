@@ -12,16 +12,36 @@
 #include  <unistd.h>
 
 #define	OPTLIST		"aAf:h:lmq"
+#define CHECK_ALLOC(p) if(p == NULL) { perror(__func__); exit(EXIT_FAILURE); } // Check if allocations were successful
 
-// Global PP Constants
-// #define
+// Global Vars
+typedef struct _list {
+     char           *string;
+     struct _list   *next;
+} LIST;
+
+typedef	LIST * HASHTABLE;
+
+extern int usageFilecount, usageSize, usageUnique, usageMinimized;
+extern int *flags;
+extern HASHTABLE *hashes;
 
 // Global Functions
 extern char *strSHA2(char *filename);
 extern void traverse(char *directory);
 
-// Global Variables
+extern	HASHTABLE	*hashtable_new (void);
+extern	void		 hashtable_add (HASHTABLE *hashtable, char *key, char *value);
+extern	bool		 hashtable_find(HASHTABLE *, char *string);
+extern	LIST      *hashtable_get (HASHTABLE *hashtable, char *string);
 
+extern	LIST	*list_new  (void);
+extern	LIST	*list_add  (LIST *list, char *newstring); //List functions
+extern	bool	 list_find (LIST *list, char *wanted);
+extern	void	 list_print(LIST *list);
+
+//Global Constants
+#define	HASHTABLE_SIZE		997
 
 // typedef struct {
 //     char filename[256];
