@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[]){
     int opt;
+    char *directory = "./";
 
     flags = malloc(sizeof(int) * 6);
 
@@ -39,11 +40,43 @@ int main(int argc, char *argv[]){
         }
     }
 
-    // printf("%s\n", strSHA2("./Test/test2.txt"));
-    hashes = hashtable_new();
-    readFiles("./Test/");
+    if (optind < argc) {
+        directory = argv[optind];
+    }
 
-    if (!flags[5] && !flags[3]) {
+    if (optind < (argc - 1)) {
+        // Unflagged argument
+        printf("%d | %d", optind, argc);
+        fprintf(stderr, "Illegal command-line flag passed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int setflags = 0;
+    for (int flag = 1; flag < 5; flag++) {
+        if (flags[flag]) { setflags++; }
+    }
+    if (setflags > 1) {
+        fprintf(stderr, "Flags -fhlmq are mutually exclusive, you may only use one at a time.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    hashes = hashtable_new();
+    readFiles(directory);
+
+    if (flags[1] || flags[2]) {
+        if (!matchFilter(optarg, flags[2])) {
+            exit(EXIT_FAILURE);
+        }
+    } else if (flags[3]) 
+    { 
+        dupDetect();
+    } else if (flags[5]) 
+    {
+        if (usageFilecount - usageUnique) {
+            exit(EXIT_FAILURE);
+        }
+    } else 
+    {
         printf("%s\n", "Files found: ");
         printf("%i\n", usageFilecount);
 
@@ -55,14 +88,7 @@ int main(int argc, char *argv[]){
 
         printf("%s\n", "Total Minimum Filesize (in bytes): ");
         printf("%i\n", usageMinimized);
-    } else if(flags[3])
-    {
-        dupDetect();
-    } else if (usageUnique - usageFilecount) 
-    {
-        exit(EXIT_FAILURE);
     }
-    // print("%s", )
 
     exit(EXIT_SUCCESS);
 }

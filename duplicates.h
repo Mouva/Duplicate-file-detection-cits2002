@@ -11,7 +11,7 @@
 #include  <dirent.h>
 #include  <unistd.h>
 
-#define	OPTLIST		"aAf:h:lmq"
+#define OPTLIST "aAf:h:lmq"
 #define CHECK_ALLOC(p) if(p == NULL) { perror(__func__); exit(EXIT_FAILURE); } // Check if allocations were successful
 
 // Global Vars
@@ -20,34 +20,35 @@ typedef struct _list {
      struct _list   *next;
 } LIST;
 
-typedef	LIST * HASHTABLE;
+typedef LIST *HASHTABLE;
 
-extern int usageFilecount, usageSize, usageUnique, usageMinimized;
-extern int *flags;
+extern int        usageFilecount, usageSize, usageUnique, usageMinimized;
+extern int       *flags;
 extern HASHTABLE *hashes;
-extern LIST *uniqueHashes;
+extern LIST      *uniqueHashes;
 
 // Global Functions
-extern    char *strSHA2(char *filename);
-extern    void readFiles(char *directory);
+extern char      *strSHA2               (char *filename);
+extern void       readFiles             (char *directory);
 
 //htable file functions
-extern	  HASHTABLE	*hashtable_new (void);
-extern	  void hashtable_add (HASHTABLE *hashtable, char *key, char *value);
-extern	  bool hashtable_find(HASHTABLE *, char *string);
-extern	  LIST *hashtable_get (HASHTABLE *hashtable, char *string);
-extern    char *hashtable_getListItem(HASHTABLE *hashtable, char *string, int index);
+extern HASHTABLE *hashtable_new         (void);
+extern void       hashtable_add         (HASHTABLE *hashtable, char *key, char *value);
+extern bool       hashtable_find        (HASHTABLE *, char *string);
+extern LIST      *hashtable_get         (HASHTABLE *hashtable, char *string);
+extern char      *hashtable_getListItem (HASHTABLE *hashtable, char *string, int index);
 
 //list file functions
-extern	  LIST *list_new  (void);
-extern	  LIST *list_add  (LIST *list, char *newstring); //List functions
-extern	  bool list_find (LIST *list, char *wanted);
-extern	  void list_print(LIST *list);
-extern    char *list_get(LIST *list, int index);
-extern    int list_len(LIST *list);
+extern LIST      *list_new              (void);
+extern LIST      *list_add              (LIST *list, char *newstring);
+extern bool       list_find             (LIST *list, char *wanted);
+extern void       list_print            (LIST *list);
+extern char      *list_get              (LIST *list, int index);
+extern int        list_len              (LIST *list);
 
 //dupDetect file functions
-extern    void dupDetect();
+extern void       dupDetect();
+extern int        matchFilter(char *filter, int filterIsHash);
 
 //Global Constants
 #define	HASHTABLE_SIZE		997

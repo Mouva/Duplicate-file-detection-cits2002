@@ -9,6 +9,7 @@ void readFiles(char *directory) {
 
     dirp       = opendir(directory);
 
+
     while((dp = readdir(dirp)) != NULL) {
         struct stat  stat_buffer;
         struct stat  *pointer = &stat_buffer;

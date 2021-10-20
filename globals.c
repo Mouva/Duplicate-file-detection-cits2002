@@ -7,8 +7,8 @@ int usageMinimized = 0;
 
 int *flags;
 
-char *optFile;
-char *optHash;
+// char *optFile;
+// char *optHash;
 
 LIST *uniqueHashes;
 HASHTABLE *hashes;
