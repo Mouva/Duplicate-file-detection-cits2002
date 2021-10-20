@@ -1,3 +1,7 @@
+//  CITS2002 Project 2 2021
+//  Name(s):             Adrian Bedford, Oliver Lynch
+//  Student number(s):   22973676, 22989775
+
 #include "duplicates.h"
 
 int main(int argc, char *argv[]){
@@ -37,9 +41,9 @@ int main(int argc, char *argv[]){
 
     // printf("%s\n", strSHA2("./Test/test2.txt"));
     hashes = hashtable_new();
-    traverse("./Test/");
+    readFiles("./Test/");
 
-    if (!flags[5]) {
+    if (!flags[5] && !flags[3]) {
         printf("%s\n", "Files found: ");
         printf("%i\n", usageFilecount);
 
@@ -51,13 +55,14 @@ int main(int argc, char *argv[]){
 
         printf("%s\n", "Total Minimum Filesize (in bytes): ");
         printf("%i\n", usageMinimized);
+    } else if(flags[3])
+    {
+        dupDetect();
     } else if (usageUnique - usageFilecount) 
     {
         exit(EXIT_FAILURE);
     }
-
     // print("%s", )
-    list_print(hashtable_get(hashes, "396496227e4c3856f15bf12c28d37f0f7a3abd1108243bc035b8efae0fa14381"));
 
     exit(EXIT_SUCCESS);
 }

@@ -9,6 +9,6 @@ int *flags;
 
 char *optFile;
 char *optHash;
-// LIST *list_new(void)
 
+LIST *uniqueHashes;
 HASHTABLE *hashes;

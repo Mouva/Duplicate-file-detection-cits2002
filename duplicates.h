@@ -25,27 +25,29 @@ typedef	LIST * HASHTABLE;
 extern int usageFilecount, usageSize, usageUnique, usageMinimized;
 extern int *flags;
 extern HASHTABLE *hashes;
+extern LIST *uniqueHashes;
 
 // Global Functions
-extern char *strSHA2(char *filename);
-extern void traverse(char *directory);
+extern    char *strSHA2(char *filename);
+extern    void readFiles(char *directory);
 
-extern	HASHTABLE	*hashtable_new (void);
-extern	void		 hashtable_add (HASHTABLE *hashtable, char *key, char *value);
-extern	bool		 hashtable_find(HASHTABLE *, char *string);
-extern	LIST      *hashtable_get (HASHTABLE *hashtable, char *string);
+//htable file functions
+extern	  HASHTABLE	*hashtable_new (void);
+extern	  void hashtable_add (HASHTABLE *hashtable, char *key, char *value);
+extern	  bool hashtable_find(HASHTABLE *, char *string);
+extern	  LIST *hashtable_get (HASHTABLE *hashtable, char *string);
+extern    char *hashtable_getListItem(HASHTABLE *hashtable, char *string, int index);
 
-extern	LIST	*list_new  (void);
-extern	LIST	*list_add  (LIST *list, char *newstring); //List functions
-extern	bool	 list_find (LIST *list, char *wanted);
-extern	void	 list_print(LIST *list);
+//list file functions
+extern	  LIST *list_new  (void);
+extern	  LIST *list_add  (LIST *list, char *newstring); //List functions
+extern	  bool list_find (LIST *list, char *wanted);
+extern	  void list_print(LIST *list);
+extern    char *list_get(LIST *list, int index);
+extern    int list_len(LIST *list);
+
+//dupDetect file functions
+extern    void dupDetect();
 
 //Global Constants
 #define	HASHTABLE_SIZE		997
-
-// typedef struct {
-//     char filename[256];
-//     char hash[32];
-// } ;
-
-// FILE

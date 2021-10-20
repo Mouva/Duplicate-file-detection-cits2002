@@ -32,8 +32,10 @@ HASHTABLE *hashtable_new(void)
 void hashtable_add(HASHTABLE *hashtable, char *key, char *value)
 {
     uint32_t h   = hash_string(key) % HASHTABLE_SIZE;    // choose list
-    hashtable[h] = list_new();
-    hashtable[h] = list_add(hashtable[h], key);
+
+    if (!list_find(hashtable[h], key)) {
+        hashtable[h] = list_add(hashtable[h], key);
+    }
     hashtable[h] = list_add(hashtable[h], value);
 }
 
@@ -53,4 +55,14 @@ LIST *hashtable_get(HASHTABLE *hashtable, char *string)
     }
 
     return list_new();
+}
+
+char *hashtable_getListItem(HASHTABLE *hashtable, char *string, int index) 
+{
+    uint32_t h	= hash_string(string) % HASHTABLE_SIZE;     // choose list
+    if (list_find(hashtable[h], string)) {
+        return list_get(hashtable[h], index);
+    }
+
+    return NULL;
 }

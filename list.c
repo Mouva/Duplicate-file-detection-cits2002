@@ -23,10 +23,10 @@ LIST *list_new(void)
 bool list_find(LIST *list, char *wanted)
 {
     while(list != NULL) {
-	if(strcmp(list->string, wanted) == 0) {
-	    return true;
-	}
-	list	= list->next;
+        if(strcmp(list->string, wanted) == 0) {
+            return true;
+        }
+        list	= list->next;
     }
     return false;
 }
@@ -60,12 +60,38 @@ void list_print(LIST *list)
 {
     if(list != NULL) {
         while(list != NULL) {
-	    printf("%s", list->string);
-	    if(list->next != NULL) {
-	        printf(" -> ");
-            }
-	    list	= list->next;
+            printf("%s", list->string);
+            if(list->next != NULL) {
+                printf(" -> ");
+                }
+            list	= list->next;
         }
 	printf("\n");
     }
+}
+
+char *list_get(LIST *list, int index) {
+    int i = 0;
+    if(list != NULL) {
+        while(list != NULL) {
+            if (index == i++) {
+                return list->string;
+            }
+
+            list    = list->next;
+        }
+    }
+
+    return NULL;
+}
+
+int list_len(LIST *list) {
+    int i = 0;
+    if(list != NULL) {
+        while(list != NULL) {
+            i++;
+            list    = list->next;
+        }
+    }
+    return i;
 }
