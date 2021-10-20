@@ -5,11 +5,11 @@
 #include <getopt.h>
 
 #include <string.h>
-#include  <sys/types.h>
-#include  <sys/stat.h>
-#include  <sys/param.h>
-#include  <dirent.h>
-#include  <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/param.h>
+#include <dirent.h>
+#include <unistd.h>
 
 #define OPTLIST "aAf:h:lmq"
 #define CHECK_ALLOC(p) if(p == NULL) { perror(__func__); exit(EXIT_FAILURE); } // Check if allocations were successful
@@ -29,7 +29,7 @@ extern LIST      *uniqueHashes;
 
 // Global Functions
 extern char      *strSHA2               (char *filename);
-extern void       readFiles             (char *directory);
+extern int        readFiles             (char *directory);
 
 //htable file functions
 extern HASHTABLE *hashtable_new         (void);
@@ -51,4 +51,5 @@ extern void       dupDetect();
 extern int        matchFilter(char *filter, int filterIsHash);
 
 //Global Constants
-#define	HASHTABLE_SIZE		997
+// Too many collisions at hashtable size 1000
+#define	HASHTABLE_SIZE		65536

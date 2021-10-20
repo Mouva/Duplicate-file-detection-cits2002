@@ -45,8 +45,7 @@ int main(int argc, char *argv[]){
     }
 
     if (optind < (argc - 1)) {
-        // Unflagged argument
-        printf("%d | %d", optind, argc);
+        // Too many unflagged arguments
         fprintf(stderr, "Illegal command-line flag passed.\n");
         exit(EXIT_FAILURE);
     }
@@ -61,14 +60,18 @@ int main(int argc, char *argv[]){
     }
 
     hashes = hashtable_new();
-    readFiles(directory);
+
+    if (readFiles(directory)) {
+        fprintf(stderr, "The provided directory could not be read.\n");
+        exit(EXIT_FAILURE);
+    }
 
     if (flags[1] || flags[2]) {
         if (!matchFilter(optarg, flags[2])) {
             exit(EXIT_FAILURE);
         }
-    } else if (flags[3]) 
-    { 
+    }
+    else if (flags[3]) { 
         dupDetect();
     } else if (flags[5]) 
     {

@@ -5,6 +5,7 @@ void dupDetect(){
         LIST *filepaths = hashtable_get(hashes, i->string);
         int filepathsLen = list_len(filepaths);
         if (filepathsLen > 2) {
+            // printf("[HASH] %s\n", i->string);
             // for (int j = 0; j < filepathsLen - 1; j++){
             //     printf("%s\t", list_get(filepaths, j));
             // }

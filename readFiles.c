@@ -2,44 +2,66 @@
 
 char *progname;
 
-void readFiles(char *directory) {
+int readFiles(char *directory) {
     DIR             *dirp;
-    struct dirent   *dp;
-    char  fullpath[256];
+    struct  dirent    *dp;
 
-    dirp       = opendir(directory);
+    if (access(directory, R_OK) != 0) { // Return if directory is inaccessable
+        return 1;
+    }
 
+    dirp = opendir(directory);
 
     while((dp = readdir(dirp)) != NULL) {
-        struct stat  stat_buffer;
+        struct stat   stat_buffer;
         struct stat  *pointer = &stat_buffer;
-        char* name = dp->d_name;
+        char  *name = dp->d_name;
 
-        sprintf(fullpath, "%s/%s", directory, name );
+        int pathlen = strlen(directory) + strlen(name) + 2;
+        char  *relPath;
 
-        if(stat(fullpath, pointer) != 0) {
-            perror( progname );
+        relPath = malloc(sizeof(char) * pathlen); // Allocate memory for dynamic path length
+
+        if (!strcmp(directory, "./")) {
+            sprintf(relPath, "./%s", name);
+        } else {
+            sprintf(relPath, "%s/%s", directory, name);
         }
-        else if (!strncmp(name, ".", 256) || !strncmp(name, "..", 256)) { 
-            continue;
-        }
-        else if( S_ISDIR( pointer->st_mode )) {
-            readFiles(fullpath);
-        } 
-        else if( S_ISREG( pointer->st_mode )) {
-            if (strncmp(name, ".", 1) || flags[0]) {     
+
+        if (strncmp(name, ".", 1) || flags[0]) { // Ignore hidden directories & files unless -a is set
+            if(stat(relPath, pointer) != 0) {
+                perror( progname );
+            }
+            else if (!strcmp(name, ".") || !strcmp(name, "..")) { // Ignore . & .. system directories
+                continue;
+            }
+            else if( S_ISDIR( pointer->st_mode )) { // Recursively check subdirectory
+                readFiles(relPath);
+            } 
+            else if( S_ISREG( pointer->st_mode )) { 
+                if (access(directory, R_OK) != 0) { // Skip file if it cannot be read
+                    continue;
+                }
+
                 usageFilecount++;
                 long long int fileSize = stat_buffer.st_size;
                 usageSize += fileSize;
-                char *fileHash = strSHA2(fullpath); 
+
+                char *fileHash = strSHA2(relPath); 
                 if (!list_find(uniqueHashes, fileHash)) {
+                    // Unseen File
                     uniqueHashes = list_add(uniqueHashes, fileHash);
                     usageUnique++;
                     usageMinimized += fileSize;
                 }
-                hashtable_add(hashes, fileHash, fullpath);
+                hashtable_add(hashes, fileHash, relPath);
+
+                // printf("[%s] >> %s\n", relPath, fileHash);
             }
         }
+
     }
     closedir(dirp);
+
+    return 0;
 }

@@ -37,6 +37,8 @@ void hashtable_add(HASHTABLE *hashtable, char *key, char *value)
         hashtable[h] = list_add(hashtable[h], key);
     }
     hashtable[h] = list_add(hashtable[h], value);
+
+    // printf("Added [%s] at address [%i]\n", key, h);
 }
 
 //  DETERMINE IF A REQUIRED STRING ALREADY EXISTS IN A GIVEN HASHTABLE
