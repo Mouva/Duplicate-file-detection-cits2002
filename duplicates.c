@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
             flags[0] = 1;
             break;
         case 'A':
-            exit(EXIT_FAILURE);
+            exit(EXIT_SUCCESS);
             break;
         case 'f':
             flags[1] = 1;
@@ -41,16 +41,15 @@ int main(int argc, char *argv[]){
         }
     }
 
-    if (optind < argc) {
-        directory = argv[optind];
-    }
+    // if (optind < argc) {
+    //     directory = argv[optind];
+    // }
 
-    if (optind < (argc - 1)) {
-        // Too many unflagged arguments
-        fprintf(stderr, "Illegal command-line flag passed.\n");
-        exit(EXIT_FAILURE);
-    }
-
+    // if (optind < (argc - 1)) {
+    //     // Too many unflagged arguments
+    //     fprintf(stderr, "Illegal command-line flag passed.\n");
+    //     exit(EXIT_FAILURE);
+    // }
     int setflags = 0;
     for (int flag = 1; flag < 5; flag++) {
         if (flags[flag]) { setflags++; }
@@ -60,10 +59,21 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    if (readFiles(directory)) {
-        fprintf(stderr, "The provided directory could not be read.\n");
-        exit(EXIT_FAILURE);
+    if (optind < argc) {
+        for (; optind < argc; optind++){
+            if (readFiles(argv[optind])) {
+                fprintf(stderr, "The provided directory could not be read.\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    } else {
+        if (readFiles(directory)) {
+            fprintf(stderr, "The provided directory could not be read.\n");
+            exit(EXIT_FAILURE);
+        }
     }
+
+
 
     if (flags[1] || flags[2]) {
         if (matchFilter(optarg, flags[2])) {
@@ -72,13 +82,16 @@ int main(int argc, char *argv[]){
     }
     else if (flags[3]) { 
         dupDetect();
-    } else if (flags[5]) 
-    {
+    } 
+    else if (flags[4]) {
+        hardlink();
+    } 
+    else if (flags[5]) {
         if (usageFilecount - usageUnique) {
             exit(EXIT_FAILURE);
         }
-    } else 
-    {
+    }
+    else {
         printf("%s\n", "Files found: ");
         printf("%i\n", usageFilecount);
 

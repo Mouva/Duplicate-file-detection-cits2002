@@ -27,10 +27,18 @@ extern int        usageFilecount, usageSize, usageUnique, usageMinimized;
 extern int       *flags;
 extern HASHTABLE *hashes;
 extern LIST      *uniqueHashes;
+extern LIST      *inodes;
 
 // Global Functions
 extern char      *strSHA2               (char *filename);
 extern int        readFiles             (char *directory);
+
+//dupDetect file functions
+extern void       dupDetect();
+extern int        matchFilter(char *filter, int filterIsHash);
+
+//hardlink file functions
+extern void       hardlink();
 
 //htable file functions
 extern HASHTABLE *hashtable_new         (void);
@@ -47,10 +55,6 @@ extern void       list_print            (LIST *list);
 extern LIST      *list_get              (LIST *list, int index);
 // extern int        list_len              (LIST *list);
 extern int        list_count            (LIST *list, char* key);
-
-//dupDetect file functions
-extern void       dupDetect();
-extern int        matchFilter(char *filter, int filterIsHash);
 
 //Global Constants
 // Too many collisions at hashtable size 1000

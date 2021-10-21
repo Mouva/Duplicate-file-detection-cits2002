@@ -10,5 +10,6 @@ int *flags;
 // char *optFile;
 // char *optHash;
 
-LIST *uniqueHashes;
 HASHTABLE *hashes;
+LIST *uniqueHashes;
+LIST *inodes;
