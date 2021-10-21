@@ -39,7 +39,7 @@ int readFiles(char *directory) {
                 readFiles(relPath);
             } 
             else if( S_ISREG( pointer->st_mode )) { 
-                if (access(directory, R_OK) != 0) { // Skip file if it cannot be read
+                if (access(relPath, R_OK) != 0) { // Skip file if it cannot be read
                     continue;
                 }
 
@@ -50,7 +50,7 @@ int readFiles(char *directory) {
                 char *fileHash = strSHA2(relPath); 
                 if (!list_find(uniqueHashes, fileHash)) {
                     // Unseen File
-                    uniqueHashes = list_add(uniqueHashes, fileHash);
+                    uniqueHashes = list_add(uniqueHashes, fileHash, "");
                     usageUnique++;
                     usageMinimized += fileSize;
                 }

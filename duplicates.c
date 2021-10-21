@@ -9,6 +9,7 @@ int main(int argc, char *argv[]){
     char *directory = "./";
 
     flags = malloc(sizeof(int) * 6);
+    hashes = hashtable_new();
 
     // Digest input flags
     while((opt = getopt(argc, argv, OPTLIST)) != -1) {
@@ -59,15 +60,13 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    hashes = hashtable_new();
-
     if (readFiles(directory)) {
         fprintf(stderr, "The provided directory could not be read.\n");
         exit(EXIT_FAILURE);
     }
 
     if (flags[1] || flags[2]) {
-        if (!matchFilter(optarg, flags[2])) {
+        if (matchFilter(optarg, flags[2])) {
             exit(EXIT_FAILURE);
         }
     }

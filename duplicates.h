@@ -16,7 +16,8 @@
 
 // Global Vars
 typedef struct _list {
-     char           *string;
+     char           *key;
+     char           *value;
      struct _list   *next;
 } LIST;
 
@@ -40,11 +41,12 @@ extern char      *hashtable_getListItem (HASHTABLE *hashtable, char *string, int
 
 //list file functions
 extern LIST      *list_new              (void);
-extern LIST      *list_add              (LIST *list, char *newstring);
+extern LIST      *list_add              (LIST *list, char *newkey, char *newvalue);
 extern bool       list_find             (LIST *list, char *wanted);
 extern void       list_print            (LIST *list);
-extern char      *list_get              (LIST *list, int index);
-extern int        list_len              (LIST *list);
+extern LIST      *list_get              (LIST *list, int index);
+// extern int        list_len              (LIST *list);
+extern int        list_count            (LIST *list, char* key);
 
 //dupDetect file functions
 extern void       dupDetect();
