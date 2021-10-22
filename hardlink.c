@@ -14,9 +14,10 @@ void hardlink() {
             for (LIST *j = filepaths; j != NULL; j = j->next) {
                 if (!strcmp(j->key, i->key)) {
                     if (referencePath) {
-                        int linked = link(j->value, referencePath);
+                        remove(j->value);
+                        int linked = link(referencePath, j->value);
                         if (linked == 0) {
-                            printf("%s linked to %s\n", j->value, referencePath);
+                            printf("%s linked to %s\n", referencePath, j->value);
                         } else {
                             printf("%s could not be linked (%i) to %s\n", j->value, linked, referencePath);
                         }
