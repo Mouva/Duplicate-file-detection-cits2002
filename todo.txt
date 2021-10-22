@@ -1,2 +1,0 @@
-- Move variable declarations for DS into globals.c
-- Everything else

@@ -48,7 +48,7 @@ int readFiles(char *directory) {
 
                 char *inodeStr;
                 inodeStr = malloc(sizeof(char) * 32);
-                snprintf(inodeStr, sizeof(inodeStr), "%llu", stat_pointer->st_ino); // Convert inode to string for storage in list
+                sprintf(inodeStr, "%llu", stat_pointer->st_ino); // Convert inode to string for storage in list
 
                 if (!list_find(inodes, inodeStr)) {
                     usageSize += fileSize;
